@@ -1,0 +1,328 @@
+:root {
+  /* Height of the paper strip. The hero fills the rest of the screen. */
+  --top-h: clamp(3.6rem, 12svh, 6.5rem);
+}
+
+/* ================= Paper header ================= */
+.top {
+  position: relative;
+  z-index: 3;
+  height: var(--top-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5rem;
+  background-color: var(--cream);
+  background-image:
+    linear-gradient(rgba(91, 23, 40, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91, 23, 40, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+  text-align: center;
+}
+
+/* Zigzag edge between the paper and the dark section */
+.top::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -19px;
+  height: 20px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='20' viewBox='0 0 44 20'%3E%3Cpolygon points='0,0 44,0 22,19' fill='%23F5EFE5'/%3E%3C/svg%3E")
+    repeat-x;
+}
+
+.top h1 {
+  font-family: var(--pencil);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 6.5svh, 3.8rem);
+  color: #2b1a1f;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  filter: url(#pencil);
+  transform: rotate(-1deg);
+}
+
+/* ================= Menu button ================= */
+.menu {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: clamp(40px, 6.5svh, 52px);
+  height: clamp(40px, 6.5svh, 52px);
+  border-radius: 14px;
+  background: var(--black);
+  display: grid;
+  place-content: center;
+  gap: 6px;
+}
+
+.menu i {
+  display: block;
+  width: 24px;
+  height: 3px;
+  border-radius: 2px;
+  background: #fff;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.menu i:last-child {
+  background: var(--accent);
+}
+
+.menu.open i:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.menu.open i:nth-child(2) {
+  opacity: 0;
+}
+.menu.open i:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+.panel {
+  position: absolute;
+  left: 1.2rem;
+  top: calc(100% + 1.4rem);
+  z-index: 19;
+  background: var(--black);
+  border-radius: 14px;
+  padding: 0.8rem 1.4rem;
+  display: none;
+  text-align: left;
+}
+
+.panel.open {
+  display: block;
+}
+
+.panel a {
+  display: block;
+  padding: 0.45rem 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--beige);
+}
+
+.panel a:hover {
+  color: var(--taupe);
+}
+
+/* ================= Dark hero: exactly one screen ================= */
+.hero {
+  position: relative;
+  z-index: 1;
+  height: calc(100svh - var(--top-h));
+  min-height: 34rem;
+  overflow: hidden;
+  background: var(--dark);
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(13, 10, 11, 0.35) 0 6px,
+    transparent 6px 12px
+  );
+  padding: 1.6rem clamp(1rem, 4vw, 4rem) 0;
+  border-radius: 0 0 28px 28px;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Stage = a 1000 x 800 grid that scales with the screen height */
+.stage {
+  position: relative;
+  align-self: end;
+  justify-self: center;
+  width: min(100%, calc((100svh - var(--top-h) - 1.6rem) * 1.25));
+  aspect-ratio: 1000 / 800;
+}
+
+/* Your cutout, sitting on the bottom edge. Clip hides the stroke along the bottom. */
+.person {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 86%; /* <-- change this to make the photo bigger or smaller */
+  clip-path: inset(-40px -40px 0 -40px);
+}
+
+.person img {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  filter: url(#cutout-stroke);
+}
+
+.arrows {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.arrows path {
+  fill: none;
+  stroke: var(--beige);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1s ease forwards;
+}
+
+.arrows circle {
+  fill: var(--beige);
+  opacity: 0;
+  animation: fade 0.4s ease forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fade {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Role labels */
+.role {
+  position: absolute;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(0.9rem, 2.2vw, 1.55rem);
+  line-height: 1.1;
+  color: var(--cream);
+  opacity: 0;
+  animation: fade 0.8s ease forwards;
+}
+
+.role.right {
+  text-align: right;
+}
+
+.role1 { left: 3%;  top: 8%; }
+.role2 { right: 3%; top: 9%; }
+.role3 { left: 2%;  top: 38%; }
+.role4 { right: 2%; top: 36%; }
+.role5 { left: 4%;  top: 88%; }
+.role6 { right: 4%; top: 88%; }
+
+/* ================= Intro text ================= */
+.intro {
+  align-self: center;
+}
+
+.hi {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1.6rem, 5svh, 2.8rem);
+  color: var(--beige);
+  margin-bottom: 0.1rem;
+}
+
+.name {
+  font-family: 'Anton', Impact, sans-serif;
+  font-weight: 400;
+  font-size: clamp(3rem, min(8vw, 15svh), 8rem);
+  line-height: 1;
+  color: var(--cream);
+  letter-spacing: 0.01em;
+}
+
+.name span {
+  color: transparent;
+  -webkit-text-stroke: 3px var(--accent);
+}
+
+.tag {
+  font-size: clamp(1rem, 1.9vw, 1.5rem);
+  max-width: 26ch;
+  margin: 1.2rem 0 0.8rem;
+  color: var(--cream);
+}
+
+.loc {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1.4rem;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: var(--cream);
+}
+
+.loc svg,
+.contact svg {
+  flex: none;
+  fill: none;
+  stroke: var(--cream);
+  stroke-width: 1.6;
+}
+
+.loc svg {
+  width: 26px;
+  height: 26px;
+}
+
+.contact a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.6rem 0;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: var(--cream);
+  transition: color 0.25s;
+}
+
+.contact a:hover {
+  color: var(--taupe);
+}
+
+.contact svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* ================= Mobile: stack, allow scrolling ================= */
+@media (max-width: 820px) {
+  .hero {
+    height: auto;
+    min-height: calc(100svh - var(--top-h));
+    grid-template-columns: 1fr;
+    padding-top: 2rem;
+  }
+  .stage {
+    width: 100%;
+    max-width: 560px;
+  }
+  .intro {
+    padding-bottom: 2.5rem;
+  }
+}
+
+/* Respect "reduce motion" */
+@media (prefers-reduced-motion: reduce) {
+  .arrows path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .arrows circle,
+  .role {
+    animation: none;
+    opacity: 1;
+  }
+  .top h1 {
+    filter: none;
+  }
+}

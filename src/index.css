@@ -1,0 +1,59 @@
+/* ===== Colour palette: burgundy, black, beige ===== */
+:root {
+  --black: #0d0a0b;
+  --dark: #3b101d;
+  --bur: #5b1728;
+  --wine: #72263b;
+  --accent: #9b2f4a;
+  --beige: #e8dcc8;
+  --cream: #f5efe5;
+  --taupe: #b7a895;
+
+  --pencil: 'Gloria Hallelujah', 'Comic Sans MS', cursive;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--cream);
+  color: var(--beige);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  background: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--beige);
+  outline-offset: 4px;
+}
