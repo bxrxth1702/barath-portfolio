@@ -132,23 +132,32 @@
   align-items: center;
 }
 
-/* Stage = a 1000 x 800 grid that scales with the screen height */
+/* Stage = a 1000 x 800 grid that scales with the screen height.
+   container-type lets the role labels scale with the stage (cqw units). */
 .stage {
   position: relative;
   align-self: end;
   justify-self: center;
   width: min(100%, calc((100svh - var(--top-h) - 1.6rem) * 1.25));
   aspect-ratio: 1000 / 800;
+  container-type: inline-size;
 }
 
-/* Your cutout, sitting on the bottom edge. Clip hides the stroke along the bottom. */
+/* Your cutout. It sits slightly below the bottom edge so the wiggle never shows a gap. */
 .person {
   position: absolute;
-  bottom: 0;
+  bottom: -3%;
   left: 50%;
   transform: translateX(-50%);
-  height: 86%; /* <-- change this to make the photo bigger or smaller */
+  height: 88%; /* <-- change this to make the photo bigger or smaller */
   clip-path: inset(-40px -40px 0 -40px);
+}
+
+/* This wrapper is what wiggles (moved by Hero.jsx) */
+.sway {
+  height: 100%;
+  transform-origin: 50% 100%;
+  will-change: transform;
 }
 
 .person img {
@@ -159,6 +168,7 @@
   filter: url(#cutout-stroke);
 }
 
+/* ================= Arrows (animated in Hero.jsx) ================= */
 .arrows {
   position: absolute;
   inset: 0;
@@ -168,27 +178,13 @@
   overflow: visible;
 }
 
-.arrows path {
+.arrow-line,
+.arrow-head {
   fill: none;
   stroke: var(--beige);
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw 1s ease forwards;
-}
-
-.arrows circle {
-  fill: var(--beige);
-  opacity: 0;
-  animation: fade 0.4s ease forwards;
-}
-
-@keyframes draw {
-  to {
-    stroke-dashoffset: 0;
-  }
 }
 
 @keyframes fade {
@@ -197,32 +193,36 @@
   }
 }
 
-/* Role labels */
+/* ================= Role labels =================
+   Their position is set by Hero.jsx. They sit just above
+   (or below) the tip of their arrow. */
 .role {
   position: absolute;
   font-family: var(--serif);
   font-weight: 600;
-  font-size: clamp(0.9rem, 2.2vw, 1.55rem);
+  font-size: clamp(0.8rem, 2.5cqw, 1.7rem);
   line-height: 1.1;
   color: var(--cream);
+  text-align: center;
+  white-space: nowrap;
   opacity: 0;
   animation: fade 0.8s ease forwards;
 }
 
-.role.right {
-  text-align: right;
+.role.up {
+  transform: translate(-50%, -100%);
+  margin-top: -0.5rem;
 }
 
-.role1 { left: 3%;  top: 8%; }
-.role2 { right: 3%; top: 9%; }
-.role3 { left: 2%;  top: 38%; }
-.role4 { right: 2%; top: 36%; }
-.role5 { left: 4%;  top: 88%; }
-.role6 { right: 4%; top: 88%; }
+.role.down {
+  transform: translate(-50%, 0);
+  margin-top: 0.5rem;
+}
 
 /* ================= Intro text ================= */
 .intro {
   align-self: center;
+  min-width: 0;
 }
 
 .hi {
@@ -246,9 +246,10 @@
   -webkit-text-stroke: 3px var(--accent);
 }
 
+/* B.Tech line stays on ONE line */
 .tag {
-  font-size: clamp(1rem, 1.9vw, 1.5rem);
-  max-width: 26ch;
+  font-size: clamp(0.78rem, 1.45vw, 1.5rem);
+  white-space: nowrap;
   margin: 1.2rem 0 0.8rem;
   color: var(--cream);
 }
@@ -306,6 +307,9 @@
     width: 100%;
     max-width: 560px;
   }
+  .tag {
+    font-size: clamp(0.7rem, 3.6vw, 1.2rem);
+  }
   .intro {
     padding-bottom: 2.5rem;
   }
@@ -313,11 +317,6 @@
 
 /* Respect "reduce motion" */
 @media (prefers-reduced-motion: reduce) {
-  .arrows path {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
-  .arrows circle,
   .role {
     animation: none;
     opacity: 1;
@@ -325,4 +324,22 @@
   .top h1 {
     filter: none;
   }
+}
+
+/* ================= Hover interaction (photo only) ================= */
+
+/* Role labels never block the pointer, so only the photo reacts */
+.role {
+  pointer-events: none;
+}
+
+/* Stops the browser's image drag / long-press menu getting in the way on touch devices */
+.person {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.person img {
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
 }
