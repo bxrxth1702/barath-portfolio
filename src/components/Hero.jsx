@@ -28,8 +28,8 @@ const LEAN = 20 // degrees the final part leans outward from vertical
 // ===================== Social links =====================
 // REPLACE these two addresses with your own profile links.
 const SOCIALS = [
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/your-username' },
-  { name: 'Instagram', href: 'https://www.instagram.com/your-username' },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/barath-m-81a715319' },
+  { name: 'Instagram', href: 'https://www.instagram.com/bxrxth_' },
 ]
 // ========================================================
 
