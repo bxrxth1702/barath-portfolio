@@ -25,6 +25,14 @@ const STRAIGHT = 44 // length of the straight final part of every arrow
 const LEAN = 20 // degrees the final part leans outward from vertical
 // =========================================================
 
+// ===================== Social links =====================
+// REPLACE these two addresses with your own profile links.
+const SOCIALS = [
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/your-username' },
+  { name: 'Instagram', href: 'https://www.instagram.com/your-username' },
+]
+// ========================================================
+
 // The three rows of arrows.
 // f: how far down the photo the arrows start (0 = top, 1 = bottom)
 // rise: climb (negative) or drop (positive)
@@ -404,6 +412,26 @@ function Hero() {
           ))}
         </nav>
 
+        <div className="socials">
+          {SOCIALS.map((s) => (
+            <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name}>
+              {s.name === 'LinkedIn' ? (
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect x="2" y="9" width="4" height="12" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              )}
+            </a>
+          ))}
+        </div>
+
         <h1>My Creative Space</h1>
       </header>
 
@@ -412,6 +440,7 @@ function Hero() {
           <div
             className="person"
             ref={personRef}
+            onContextMenu={(e) => e.preventDefault()}
             onPointerMove={onPointerMove}
             onPointerDown={onPointerDown}
             onPointerUp={onPointerUp}
