@@ -41,13 +41,19 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: calc(var(--off) + 150px); /* keeps content below the header */
+  padding-top: calc(var(--off) + 100px); /* CHANGED: keeps content just below the menu button */
   background-color: var(--cream, #f7f1e6);
   /* CHANGED: same grid as the header (28px, same line colour) so there is no seam */
   background-image:
     linear-gradient(rgba(91, 23, 40, 0.07) 1px, transparent 1px),
     linear-gradient(90deg, rgba(91, 23, 40, 0.07) 1px, transparent 1px);
   background-size: 28px 28px;
+}
+
+/* ---------- NEW: page 2 content stays hidden on page 1 and fades in as the burgundy drops.
+   (The header is see-through, so without this the photo peeked out under the title.) ---------- */
+.scene .projects {
+  opacity: clamp(0, calc((var(--p) - 0.35) * 2.5), 1);
 }
 
 /* ---------- Header: becomes see-through so page 2's grid shows behind it ---------- */
@@ -108,6 +114,11 @@
     --hdr: 114px; /* header height */
     --intro-h: 280px; /* text block height */
     --hero-pad: 10px;
+  }
+
+  /* CHANGED: page 2 starts closer to the top on phones */
+  .scene .scene-layer {
+    padding-top: calc(var(--off) + 74px);
   }
 
   /* CHANGED: header is two rows again.
