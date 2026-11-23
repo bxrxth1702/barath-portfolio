@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import Hero from './components/Hero.jsx'
+import Scene from './components/Scene.jsx'
 import IntroLoader from './components/IntroLoader.jsx'
 import { shouldPlayIntro } from './components/introUtils.js'
 
@@ -12,7 +12,8 @@ function App() {
     <>
       {playIntro && <IntroLoader onReveal={revealHome} />}
 
-      <main>{homeVisible && <Hero />}</main>
+      {/* Scene holds Hero (page 1) + Projects (page 2) and runs the drop transition */}
+      <main>{homeVisible && <Scene />}</main>
     </>
   )
 }
