@@ -530,3 +530,64 @@
 
 /* hide the hamburger while the drawer is open (the drawer has its own close button) */
 .menu.open { opacity: 0; pointer-events: none; }
+
+/* ---- Menu profile: name beside photo, left aligned ---- */
+.drawer .drawer-profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+}
+.drawer .drawer-profile > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+.drawer .drawer-profile h3 {
+  margin: 0 0 2px;
+  text-align: left;
+}
+.drawer .drawer-profile span {
+  display: block;
+  text-align: left;
+}
+
+/* ---- View Resume button ---- */
+.intro .resume-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  align-self: flex-start;
+  justify-self: start;
+  margin-top: 28px;
+  padding: 12px 26px;
+  border: 2px solid rgba(243, 233, 216, 0.75);
+  border-radius: 999px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #e9dccb;
+  background: transparent;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.intro .resume-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.intro .resume-btn:hover {
+  transform: translateY(-3px);
+  background: #f7f1e6;
+  color: #380d1b;
+}

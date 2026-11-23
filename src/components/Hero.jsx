@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import './Hero.css'
 
 const PHOTO = '/images/barath.png' // your transparent cutout
+const RESUME = '/Barath_M_Resume.pdf' // put your PDF in the public folder with this exact name
 const VIEW_W = 1000
 const VIEW_H = 800
 
@@ -437,7 +438,7 @@ function Hero() {
             <img src={PHOTO} alt="" />
             <div>
               <h3>Barath M</h3>
-              <span>AI Engineer · Full Stack Dev</span>
+              <span>B.Tech., AI&amp;DS</span>
             </div>
           </div>
 
@@ -573,6 +574,15 @@ function Hero() {
               +91 7358534116
             </a>
           </div>
+
+          <a className="resume-btn" href={RESUME} target="_blank" rel="noopener noreferrer">
+            View Resume
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 3h7v7" />
+              <path d="M21 3 10 14" />
+              <path d="M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5" />
+            </svg>
+          </a>
         </div>
       </section>
     </>
