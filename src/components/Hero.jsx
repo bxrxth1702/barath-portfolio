@@ -26,7 +26,6 @@ const LEAN = 20 // degrees the final part leans outward from vertical
 // =========================================================
 
 // ===================== Social links =====================
-// REPLACE these two addresses with your own profile links.
 const SOCIALS = [
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/barath-m-81a715319' },
   { name: 'Instagram', href: 'https://www.instagram.com/bxrxth_' },
@@ -52,7 +51,15 @@ const ROLES = [
   { id: 'dancer', text: ['Dancer'], row: 2, side: 'r' },
 ]
 
-const NAV = ['Home', 'About', 'Roles', 'Experience', 'Projects', 'Contact']
+// Menu items with inline SVG icons (no extra packages needed)
+const NAV = [
+  { name: 'Home', icon: <><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></> },
+  { name: 'About', icon: <><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></> },
+  { name: 'Roles', icon: <><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" /></> },
+  { name: 'Experience', icon: <><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></> },
+  { name: 'Projects', icon: <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" /> },
+  { name: 'Contact', icon: <><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 7L2 7" /></> },
+]
 
 // Arrowhead: exact trigonometry, so both wings are identical mirror images around the shaft.
 const HEAD_RAD = (HEAD_ANGLE * Math.PI) / 180
@@ -200,6 +207,16 @@ function Hero() {
     ro.observe(stageRef.current)
     return () => ro.disconnect()
   }, [handleLoad, layout])
+
+  // Close the drawer with the Escape key
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
 
   // ---------- Hover / touch handling (photo only) ----------
 
@@ -395,22 +412,46 @@ function Hero() {
       <header className="top">
         <button
           className={`menu ${open ? 'open' : ''}`}
-          aria-label="Toggle menu"
+          aria-label="Open menu"
           aria-expanded={open}
-          onClick={() => setOpen(!open)}
+          onClick={() => setOpen(true)}
         >
           <i></i>
           <i></i>
           <i></i>
         </button>
 
-        <nav className={`panel ${open ? 'open' : ''}`} aria-label="Main">
-          {NAV.map((name) => (
-            <a key={name} href={`#${name.toLowerCase()}`} onClick={() => setOpen(false)}>
-              {name}
-            </a>
-          ))}
-        </nav>
+        {/* Dark overlay behind the drawer */}
+        <div className={`drawer-overlay ${open ? 'open' : ''}`} onClick={() => setOpen(false)} />
+
+        {/* Slide-in side menu */}
+        <aside className={`drawer ${open ? 'open' : ''}`} aria-hidden={!open}>
+          <button className="drawer-close" aria-label="Close menu" onClick={() => setOpen(false)}>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+
+          <div className="drawer-profile">
+            <img src={PHOTO} alt="" />
+            <div>
+              <h3>Barath M</h3>
+              <span>AI Engineer · Full Stack Dev</span>
+            </div>
+          </div>
+
+          <nav aria-label="Main">
+            {NAV.map((item) => (
+              <a key={item.name} href={`#${item.name.toLowerCase()}`} onClick={() => setOpen(false)}>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  {item.icon}
+                </svg>
+                {item.name}
+              </a>
+            ))}
+          </nav>
+        </aside>
 
         <div className="socials">
           {SOCIALS.map((s) => (

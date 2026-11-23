@@ -433,3 +433,100 @@
     filter: none;
   }
 }
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 5, 12, 0.5);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+.drawer-overlay.open { opacity: 1; pointer-events: auto; }
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: min(82vw, 320px);
+  background: #f7f1e8;
+  border-radius: 0 24px 24px 0;
+  box-shadow: 8px 0 30px rgba(0, 0, 0, 0.3);
+  padding: 28px 22px;
+  transform: translateX(-105%);
+  transition: transform 0.4s cubic-bezier(0.22, 0.8, 0.25, 1);
+  z-index: 1001;
+  overflow-y: auto;
+}
+.drawer.open { transform: translateX(0); }
+
+.drawer-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 10px;
+  background: #0d0a0a;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.drawer-close svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.drawer-profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 40px 0 22px;
+  border-bottom: 1px solid rgba(60, 14, 28, 0.15);
+}
+.drawer-profile img {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  background: #3a0e1d;
+  border: 2px solid #8a2a45;
+}
+.drawer-profile h3 { margin: 0; font-size: 1.1rem; color: #2a0d17; }
+.drawer-profile span { font-size: 0.78rem; color: #8a2a45; }
+
+.drawer nav { display: flex; flex-direction: column; gap: 6px; margin-top: 22px; }
+.drawer nav a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 13px 12px;
+  border-radius: 12px;
+  color: #2a0d17;
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  transition: background 0.2s, transform 0.2s;
+}
+.drawer nav a:hover { background: rgba(138, 42, 69, 0.12); transform: translateX(4px); }
+.drawer nav svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #8a2a45;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* hide the hamburger while the drawer is open (the drawer has its own close button) */
+.menu.open { opacity: 0; pointer-events: none; }
