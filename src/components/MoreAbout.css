@@ -1,0 +1,163 @@
+/* =====================================================
+   Page 3: More about Me (plain dark burgundy page, no pattern)
+   Like page 2, it fills one screen under the pinned header.
+   ===================================================== */
+
+.more {
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0 clamp(1.2rem, 4vw, 4rem) clamp(1rem, 3.5svh, 2.4rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3.5svh, 2rem);
+  text-align: left;
+  color: var(--cream, #f7f1e6);
+}
+
+.more-title {
+  margin: 0;
+  font-family: 'Anton', Impact, sans-serif;
+  font-weight: 400;
+  font-size: clamp(2.8rem, min(6.5vw, 10svh), 5.4rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--cream, #f7f1e6);
+}
+
+/* "me" is outlined, like the M in your name on page 1 */
+.more-title span {
+  color: transparent;
+  -webkit-text-stroke: 3px var(--accent, #a8324f);
+}
+
+.more-text {
+  margin: 0;
+  max-width: 70ch;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: clamp(1.1rem, min(1.7vw, 2.9svh), 1.6rem);
+  line-height: 1.5;
+  color: rgba(247, 241, 230, 0.85);
+}
+
+/* ---------- 3 info cards, share the full width and the height that is left ---------- */
+.more-grid {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+  gap: clamp(1rem, 2.4vw, 2.4rem);
+}
+
+.more-card {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: clamp(1.1rem, 2vw, 1.8rem);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(247, 241, 230, 0.18);
+}
+
+.more-card h3 {
+  margin: 0;
+  font-family: 'Anton', Impact, sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.1rem, 1.7vw, 1.6rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--beige, #e9dccb);
+}
+
+.more-card p {
+  margin: 0;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: clamp(1rem, 1.35vw, 1.3rem);
+  line-height: 1.45;
+  color: rgba(247, 241, 230, 0.85);
+}
+
+.more-card .more-big {
+  font-size: clamp(1.15rem, 1.7vw, 1.55rem);
+  font-weight: 700;
+  color: var(--cream, #f7f1e6);
+}
+
+.more-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.more-chips span {
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-size: clamp(0.78rem, 1vw, 0.92rem);
+  font-weight: 600;
+  color: var(--cream, #f7f1e6);
+  border: 1px solid rgba(247, 241, 230, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- Phones: cards stack, everything stays on one screen ---------- */
+@media (max-width: 760px) {
+  .more {
+    flex: none;
+    gap: 0.8rem;
+    padding-bottom: 0;
+  }
+
+  .more-title {
+    font-size: clamp(1.6rem, 8.4vw, 2.6rem);
+  }
+
+  .more-title span {
+    -webkit-text-stroke: 2px var(--accent, #a8324f);
+  }
+
+  .more-text {
+    font-size: clamp(0.85rem, 3.6vw, 1rem);
+    line-height: 1.4;
+  }
+
+  .more-grid {
+    flex: none;
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    gap: 0.7rem;
+  }
+
+  .more-card {
+    gap: 0.4rem;
+    padding: 0.85rem 1rem;
+    border-radius: 20px;
+  }
+
+  .more-card h3 {
+    font-size: 1.05rem;
+  }
+
+  .more-card p {
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+
+  .more-card .more-big {
+    font-size: 1rem;
+  }
+
+  .more-chips {
+    gap: 0.35rem;
+  }
+
+  .more-chips span {
+    padding: 0.22rem 0.65rem;
+    font-size: 0.72rem;
+  }
+}
