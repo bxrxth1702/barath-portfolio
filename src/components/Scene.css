@@ -43,7 +43,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: calc(var(--off) + 84px); /* page 2 content sits just below the menu button */
+  padding-top: calc(var(--off) + 72px); /* CHANGED: desktop page 2 content sits higher */
   background-color: var(--cream, #f7f1e6);
   /* same grid as the header (28px, same line colour) so there is no seam */
   background-image:
@@ -136,7 +136,7 @@
 
   /* page 2 starts just under the menu button */
   .scene .scene-layer {
-    padding-top: calc(var(--off) + var(--u) * 62);
+    padding-top: calc(var(--off) + var(--u) * 92); /* CHANGED: phone page 2 content sits lower (was 62) */
   }
 
   /* header: row 1 = menu + social buttons, row 2 = "My Creative Space" */
