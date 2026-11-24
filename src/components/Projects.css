@@ -19,7 +19,9 @@
 /* ---------- Heading + intro (left) and photo (right) ---------- */
 .projects-head {
   display: grid;
-  grid-template-columns: 1fr clamp(200px, 22vw, 340px);
+  /* CHANGED: the photo sits right next to the title + paragraph */
+  width: min(100%, 1360px);
+  grid-template-columns: minmax(0, 1fr) clamp(240px, 28vw, 480px);
   grid-template-areas:
     'title photo'
     'text  photo';
@@ -48,7 +50,7 @@
   margin: 0;
   max-width: 78ch;
   font-family: 'Times New Roman', Times, serif;
-  font-size: clamp(1rem, min(1.35vw, 2.3svh), 1.25rem);
+  font-size: clamp(1.1rem, min(1.7vw, 2.9svh), 1.6rem); /* CHANGED: bigger text */
   line-height: 1.55;
   color: rgba(13, 10, 10, 0.78);
 }
@@ -225,34 +227,43 @@
     padding-bottom: 0;
   }
 
+  /* CHANGED: photo on the right, title + paragraph both on its left (same as desktop) */
   .projects-head {
-    grid-template-columns: 1fr auto;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) clamp(104px, 31vw, 150px);
     grid-template-areas:
       'title photo'
-      'text  text';
-    row-gap: 0.6rem;
-    align-items: center;
+      'text  photo';
+    column-gap: 0.9rem;
+    row-gap: 0.5rem;
+    align-items: start;
   }
 
   .projects-title {
-    font-size: clamp(2.1rem, 10.5vw, 3rem);
+    font-size: clamp(1.6rem, 8.4vw, 2.6rem);
   }
 
   .projects-text {
-    font-size: 0.95rem;
-    line-height: 1.45;
+    font-size: clamp(0.78rem, 3.5vw, 0.95rem);
+    line-height: 1.4;
     max-width: none;
   }
 
+  /* tall photo, as high as the title + paragraph */
   .projects-photo {
-    align-self: center;
-    justify-self: end;
-    width: 84px;
-    height: 84px;
-    min-height: 0;
-    border-radius: 20px;
+    align-self: stretch;
+    justify-self: stretch;
+    width: auto;
+    height: auto;
+    min-height: 120px;
+    border-radius: 18px;
     border-width: 3px;
     font-size: 0.62rem;
+  }
+
+  /* keeps you in the middle of the tall crop; change the 58% if you want to shift it */
+  .projects-photo img {
+    object-position: 58% top;
   }
 
   .projects-cards {
@@ -282,6 +293,13 @@
 
   .pcard:hover {
     transform: none;
+  }
+
+  /* the blur effect is heavy on phones and made the transition stutter */
+  .pcard-btn {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.16);
   }
 }
 

@@ -14,6 +14,7 @@
   flex-direction: column;
   min-height: 100vh;
   min-height: 100svh;
+  min-height: 100dvh; /* follows the phone's address bar, so no white strip appears below */
   overflow: hidden;
   --p: 0; /* drop progress, set by Scene.jsx (0 to 1) */
   --off: 0px; /* extra page height on small screens, set by Scene.jsx */
@@ -23,6 +24,7 @@
 .scene-spacer {
   height: 90vh;
   height: 90svh;
+  height: 90lvh; /* fixed length, so the drop does not jump when the address bar hides */
 }
 
 .scene-anchor {
@@ -41,28 +43,34 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: calc(var(--off) + 100px); /* CHANGED: keeps content just below the menu button */
+  padding-top: calc(var(--off) + 84px); /* page 2 content sits just below the menu button */
   background-color: var(--cream, #f7f1e6);
-  /* CHANGED: same grid as the header (28px, same line colour) so there is no seam */
+  /* same grid as the header (28px, same line colour) so there is no seam */
   background-image:
     linear-gradient(rgba(91, 23, 40, 0.07) 1px, transparent 1px),
     linear-gradient(90deg, rgba(91, 23, 40, 0.07) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
-/* ---------- NEW: page 2 content stays hidden on page 1 and fades in as the burgundy drops.
+/* ---------- Page 2 content stays hidden on page 1 and fades in as the burgundy drops.
    (The header is see-through, so without this the photo peeked out under the title.) ---------- */
 .scene .projects {
   opacity: clamp(0, calc((var(--p) - 0.35) * 2.5), 1);
 }
 
-/* ---------- Header: becomes see-through so page 2's grid shows behind it ---------- */
-/* NEW */
+/* ---------- Header: see-through so page 2's grid shows behind it ---------- */
 .scene .top {
   background: transparent;
 }
 
-/* ---------- NEW: while the burgundy drops, the title and social icons float up and fade.
+/* The menu button is fixed to the screen on every device, so it never moves
+   (same place on page 1, during the drop and on page 2) */
+.scene .menu {
+  position: fixed;
+  top: calc(var(--top-h) / 2);
+}
+
+/* ---------- While the burgundy drops, the title and social icons float up and fade.
    Only the menu button stays. "translate" is used so it never clashes with your
    existing transform (the pencil tilt on the title, the centering on the icons). ---------- */
 .scene .top h1,
@@ -106,117 +114,148 @@
 }
 
 /* =====================================================
-   Fit page 1 on ONE phone screen (screens narrower than 1000px)
-   Header + photo + name, degree, city, email, phone, View Resume
+   PAGE 1 ON PHONES (screens narrower than 1000px): AUTO-FIT TO ANY SCREEN
+
+   Everything on page 1 is measured in one unit, --u.
+   The page is designed on a 390 x 844 phone, where 1 unit = 1px.
+   --u is the SMALLER of:  (screen width / 390)  and  (screen height / 844)
+   so the whole page scales up or down together and always fits on ONE screen,
+   whatever the phone's size or shape (tall, short, narrow, wide).
+   To make everything on page 1 a bit bigger or smaller, change the 1.35px cap or
+   any "calc(var(--u) * N)" number below.
    ===================================================== */
 @media (max-width: 999px) {
   .scene {
-    --hdr: 114px; /* header height */
-    --intro-h: 280px; /* text block height */
-    --hero-pad: 10px;
+    --u: min(calc(100vw / 390), calc(100svh / 844), 1.35px);
+  }
+  @supports (height: 100dvh) {
+    .scene {
+      --u: min(calc(100vw / 390), calc(100dvh / 844), 1.35px);
+    }
   }
 
-  /* CHANGED: page 2 starts closer to the top on phones */
+  /* page 2 starts just under the menu button */
   .scene .scene-layer {
-    padding-top: calc(var(--off) + 74px);
+    padding-top: calc(var(--off) + var(--u) * 62);
   }
 
-  /* CHANGED: header is two rows again.
-     Row 1 = menu + social buttons, row 2 = "My Creative Space" (no more overlap) */
+  /* header: row 1 = menu + social buttons, row 2 = "My Creative Space" */
   .scene .top {
     height: auto;
-    padding: 60px 16px 14px;
+    padding: calc(var(--u) * 60) calc(var(--u) * 16) calc(var(--u) * 14);
     gap: 0;
   }
   .scene .menu,
   .scene .socials {
-    top: 10px;
+    top: calc(var(--u) * 10);
     transform: none;
   }
   .scene .menu {
-    left: 14px;
+    position: fixed;
+    left: calc(var(--u) * 14);
   }
   .scene .socials {
-    right: 14px;
+    right: calc(var(--u) * 14);
+    gap: calc(var(--u) * 10);
   }
   .scene .menu,
   .scene .socials a {
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
+    width: calc(var(--u) * 44);
+    height: calc(var(--u) * 44);
+    border-radius: calc(var(--u) * 14);
   }
-  .scene .menu { gap: 5px; }
-  .scene .menu i { width: 24px; }
-  .scene .socials { gap: 10px; }
-  .scene .socials svg { width: 22px; height: 22px; }
+  .scene .menu {
+    gap: calc(var(--u) * 5);
+  }
+  .scene .menu i {
+    width: calc(var(--u) * 24);
+  }
+  .scene .socials svg {
+    width: calc(var(--u) * 22);
+    height: calc(var(--u) * 22);
+  }
   .scene .top h1 {
-    font-size: clamp(26px, 8.6vw, 38px);
-    line-height: 38px;
+    font-size: calc(var(--u) * 33);
+    line-height: calc(var(--u) * 38);
   }
 
-  /* hero: photo first, text underneath, no scrolling needed */
+  /* hero: photo first, text underneath; it fills exactly what is left of the screen */
   .scene .hero {
     display: flex;
     flex-direction: column;
-    padding: var(--hero-pad) 0 0;
+    min-height: 0;
+    padding: calc(var(--u) * 8) calc(var(--u) * 12) 0;
   }
 
-  /* photo area shrinks if the screen is short (keeps the 5:4 shape the arrows need) */
+  /* photo block: keeps the 5:4 shape the arrows need, always centred */
   .scene .stage {
     flex: none;
-    align-self: center; /* CHANGED: centres the photo (it was pushed to the right) */
+    align-self: center;
     margin: 0 auto;
-    width: min(100%, max(240px, calc((100vh - var(--hdr) - var(--intro-h) - var(--hero-pad)) * 1.25)));
-    width: min(100%, max(240px, calc((100svh - var(--hdr) - var(--intro-h) - var(--hero-pad)) * 1.25)));
+    width: min(100%, calc(var(--u) * 366));
   }
 
-  /* text block: compact, fixed line heights, spare space is shared evenly */
+  .scene .role {
+    font-size: calc(var(--u) * 12.8);
+  }
+
+  /* text block: spare space is shared evenly above and below */
   .scene .intro {
     flex: 1 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 0 20px 18px;
+    padding: 0 calc(var(--u) * 8) calc(var(--u) * 14);
   }
   .scene .hi {
-    font-size: 26px;
-    line-height: 28px;
+    font-size: calc(var(--u) * 30);
+    line-height: calc(var(--u) * 32);
+    margin: 0;
   }
   .scene .name {
-    margin: 0 0 6px;
-    font-size: 54px;
-    line-height: 56px;
+    margin: 0 0 calc(var(--u) * 6);
+    font-size: calc(var(--u) * 62);
+    line-height: calc(var(--u) * 62);
   }
   .scene .tag {
-    margin: 0 0 10px;
-    font-size: clamp(12px, 3.7vw, 18px);
-    line-height: 20px;
+    margin: 0 0 calc(var(--u) * 12);
+    font-size: calc(var(--u) * 14.5);
+    line-height: calc(var(--u) * 22);
     white-space: nowrap;
+  }
+  .scene .loc {
+    margin: 0 0 calc(var(--u) * 6);
   }
   .scene .loc,
   .scene .contact a {
-    gap: 14px;
-    font-size: 15px;
-    line-height: 24px;
+    gap: calc(var(--u) * 14);
+    font-size: calc(var(--u) * 16.5);
+    line-height: calc(var(--u) * 26);
+    min-height: 0;
   }
   .scene .loc svg,
   .scene .contact svg {
-    width: 22px;
-    height: 22px;
+    width: calc(var(--u) * 24);
+    height: calc(var(--u) * 24);
   }
   .scene .contact {
-    gap: 6px;
-    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--u) * 6);
+    margin: 0;
+  }
+  .scene .contact a {
+    margin: 0;
   }
   .scene .intro .resume-btn {
-    height: 40px;
-    margin-top: 12px;
-    padding: 0 20px;
-    font-size: 14px;
+    height: calc(var(--u) * 44);
+    margin-top: calc(var(--u) * 18);
+    padding: 0 calc(var(--u) * 22);
+    font-size: calc(var(--u) * 15);
   }
   .scene .intro .resume-btn svg {
-    width: 16px;
-    height: 16px;
+    width: calc(var(--u) * 17);
+    height: calc(var(--u) * 17);
   }
 }
